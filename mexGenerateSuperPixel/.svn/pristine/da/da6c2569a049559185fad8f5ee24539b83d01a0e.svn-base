@@ -1,0 +1,151 @@
+#include <mex.h>
+#include "SLICMask.h"
+
+
+
+
+// corresponding usage 1
+void mexSuperPixInitialUsage1(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
+    
+
+    enum INPUT  {IMG=0, SPNUM, COMPACTNESS, MASK};
+    enum OUTPUT {LABELS=0};
+
+    typedef double CommonCImgType;
+
+    CImg<CommonCImgType> image;
+    int          spNum;
+    double       compactness = 10.0;
+    CImg<unsigned> maskImg;
+
+    // make sure the input image is in the range [0,255]
+    if(mexCheckType<uint8>( prhs[IMG] )){
+        image = CImg<CommonCImgType>(prhs[IMG], true);
+    } else if (mexCheckType<double>( prhs[IMG] )) {
+        image = CImg<CommonCImgType>(prhs[IMG], true) * 255;
+    }
+
+    spNum  = (int)mxGetScalar( prhs[SPNUM] );
+    if ( nrhs >= 3 )
+        compactness = mxGetScalar( prhs[COMPACTNESS] );
+    if ( nrhs == 4 ) 
+        maskImg     = CImg<unsigned>(prhs[MASK], true);
+
+    int width  = image.width();
+    int height = image.height();
+    int* labels = new int[width*height];
+    CImg<uint> imgBits = loadMatImgBits<CommonCImgType , uint>(image);
+
+    // check the validility
+    if (nrhs == 4) {
+        if (maskImg.spectrum()!=1)
+            mexErrMsgTxt("The input mask must be single channel!");
+        if (maskImg.width() != width ||
+            maskImg.height()!= height)
+            mexErrMsgTxt("Size of mask must be agree with the original image!");
+    }
+
+    int numLabels(0);
+    SLICMask slicMask;
+    if (maskImg.width() > 0 && maskImg.height() > 0)
+        slicMask.SetMask(maskImg);
+
+    slicMask.DoSuperpixelSegmentation_ForGivenNumberOfSuperpixels(imgBits._data, width, height, labels, numLabels, spNum, compactness);
+    
+    mxArray* lbs  = vec2MxArray(labels, height, width);
+    plhs[LABELS] = lbs;
+
+    delete[] labels;
+}
+
+// corresponding usage 2
+void mexSuperPixInitialUsage2(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
+    enum INPUT  {IMG=0, NUMARRAY, COMPACTARRAY};
+    enum OUTPUT {LABELS=0};
+}
+
+// corresponding usage 2
+void mexSuperPixInitialUsage3(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
+    enum INPUT  {IMG=0, DUMMY, PYNUM, COMPACTNESS};
+    enum OUTPUT {LABELS=0};
+}
+
+
+//Usage:
+// Input:
+//
+// mexSuperPixInitial(img, superpixelNum, [ compactness ], [ mask ]): calculate the super pixel for the masked 
+//                                                            region, given the superpixelNum as the desired num
+// img          : an image
+// superpixelNum: a scalar
+// compactness  : a scalar
+// mask         : an image indicating different super pixel regions
+// 
+// mexSuperPixInitial(img, superPixelNumArray[], [ compactnessArray[] ] ): calc the super pixel array
+// for the given superpixelNumArray and compactnessArray.
+// img                  : an image
+// superPixelNumArray[] : an array indicating each level
+// compactnessArray[]   : an array indicating the compactness for each level
+//
+// mexSuperPixInitial(img, [], superPixelPyNum, [ compactnessArray[] ]): calc the super pixel pyramid
+//                                                                      given the pyramid num and each level
+// img                  : an image
+// superPixelPyNum      : a scalar, indicating the pyramid num
+// compactnessArray     : an array indicating the compactness used in each level of pyramid
+//
+// Output: 
+// the super pixels.
+//
+void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
+        typedef unsigned char uchar;
+        typedef unsigned int  uint;
+        
+        enum DIFFERENCEBIT {SECONDINPUT = 1};
+        
+        if (nrhs < 2 ) {
+            
+            mexErrMsgTxt("Not enough input!");
+
+        } else if (nrhs > 4) {
+            
+            mexErrMsgTxt("Two much input!");
+
+        } else if ( mxIsEmpty( prhs[SECONDINPUT] ) ) {  // belongs to the 3rd usage
+            
+            mexSuperPixInitialUsage3(nlhs, plhs, nrhs, prhs);
+
+        } else if ( mxGetNumberOfElements(prhs[SECONDINPUT])!= 1 ) { // belongs to the 2nd usage
+            
+            mexSuperPixInitialUsage2(nlhs, plhs, nrhs, prhs);
+
+        } else { // belongs to the 1st usage
+
+            mexSuperPixInitialUsage1(nlhs, plhs, nrhs, prhs);
+
+        }
+
+        /*
+        CImg<uint> maskImg = CImg<uint>(prhs[MASK], true);
+
+        
+        int numlabels(0);
+        int sp_num = (int)mxGetScalar(prhs[SPNUM]);
+        double k   = mxGetScalar(prhs[COMPACTNESS]);
+
+        SLIC slic;
+        slic.DoSuperpixelSegmentation_ForGivenNumberOfSuperpixels(img, width, height, maskImg.data(), labels, numlabels, sp_num, k);
+        mxArray* lbs  = vec2MxArray(labels, height, width);
+
+        CImg<int> imgLabels(labels, width, height, 1, 1, true);
+
+        mxArray* numL = createScalar(numlabels);
+        if (nlhs == 1 ) {
+            plhs[LABELS] = lbs;
+        }
+        else {
+            plhs[LABELS]    = lbs;
+            plhs[NUMLABELS] = numL;
+        }
+        */
+
+}

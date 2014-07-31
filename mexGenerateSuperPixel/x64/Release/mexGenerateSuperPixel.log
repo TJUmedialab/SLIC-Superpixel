@@ -1,0 +1,38 @@
+﻿生成启动时间为 2012/12/25 23:01:24。
+     1>项目“D:\documents\SLIC Superpixels\mexGenerateSuperPixel\mexGenerateSuperPixel.vcxproj”在节点 2 上(rebuild 个目标)。
+     1>_PrepareForClean:
+         正在删除文件“x64\Release\mexGenerateSuperPixel.lastbuildstate”。
+       InitializeBuildStatus:
+         正在创建“x64\Release\mexGenerateSuperPixel.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D MEXSUPERPIXINITIAL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt main.cpp SLIC.cpp SLICMask.cpp
+         main.cpp
+         SLIC.cpp
+         SLICMask.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"..\mexGenerateSuperPixel.mexw64" /INCREMENTAL:NO /NOLOGO libmex.lib libmx.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"mexFunction.def" /MANIFEST /ManifestFile:"x64\Release\mexGenerateSuperPixel.mexw64.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\documents\SLIC Superpixels\mexGenerateSuperPixel.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\mexGenerateSuperPixel.lib" /MACHINE:X64 /DLL x64\Release\main.obj
+         x64\Release\SLIC.obj
+         x64\Release\SLICMask.obj
+            正在创建库 ..\mexGenerateSuperPixel.lib 和对象 ..\mexGenerateSuperPixel.exp
+     1>mexGenerateSuperPixel.exp : warning LNK4070: .EXP 中的 /OUT:mexFunction.dll 指令与输出文件名“..\mexGenerateSuperPixel.mexw64”不同；忽略指令
+         正在生成代码
+         已完成代码的生成
+     1>mexGenerateSuperPixel.exp : warning LNK4070: .EXP 中的 /OUT:mexFunction.dll 指令与输出文件名“..\mexGenerateSuperPixel.mexw64”不同；忽略指令
+         mexGenerateSuperPixel.vcxproj -> D:\documents\SLIC Superpixels\mexGenerateSuperPixel\..\mexGenerateSuperPixel.mexw64
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"..\mexGenerateSuperPixel.mexw64;#2" /manifest x64\Release\mexGenerateSuperPixel.mexw64.intermediate.manifest
+       PostBuildEvent:
+         del ..\*.exp
+         del ..\*.lib
+         del ..\*.ilk
+         del ..\*.pdb
+         :VCEnd
+         找不到 D:\documents\SLIC Superpixels\*.ilk
+       FinalizeBuildStatus:
+         正在删除文件“x64\Release\mexGenerateSuperPixel.unsuccessfulbuild”。
+         正在对“x64\Release\mexGenerateSuperPixel.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“D:\documents\SLIC Superpixels\mexGenerateSuperPixel\mexGenerateSuperPixel.vcxproj”(rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:06.99

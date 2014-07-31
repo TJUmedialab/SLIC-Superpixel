@@ -1,0 +1,20 @@
+#include "SLIC.h"
+#include "mexutils.h"
+
+class SLICMask: public SLIC{
+public:
+    CImg<uint> GetMask() const {return m_mask;}
+    void       SetMask(const CImg<uint> &mask) {m_mask = mask;}
+    //
+    //
+    virtual void EnforceLabelConnectivity(
+		const int*					labels,
+		const int					width,
+		const int					height,
+		int*						nlabels,//input labels that need to be corrected to remove stray labels
+		int&						numlabels,//the number of labels changes in the end if segments are removed
+		const int&					K);
+
+private:
+    CImg<uint>    m_mask;
+};
